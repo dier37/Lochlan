@@ -1,3 +1,6 @@
+var S3Plugin = require('webpack-s3-plugin');
+
+
 module.exports = {
   entry: [
     './src/index.js'
@@ -22,5 +25,19 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     contentBase: './'
-  }
+  },
+  plugins: [
+    new S3Plugin({
+      // Only upload bundle.js 
+      include: /.*\.(bundle.js)/,
+      // s3Options are required 
+      s3Options: {
+        accessKeyId: 'AKIAILAVEIMUHPP7EY4A' , //process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: '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', //process.env.AWS_SECRET_ACCESS_KEY,
+      },
+      s3UploadOptions: {
+        Bucket: 'MyBucket'  
+      }
+    })
+  ]
 };
